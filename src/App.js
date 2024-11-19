@@ -6,16 +6,26 @@ import Content from './components/Content';
 import Footer from './components/Footer';
 
 function App() {
-  const [items, setItems] = useState(
-    JSON.parse(localStorage.getItem('shoppingList')) || []
-  );
+  const API_URL = 'http://localhost:3500/items';
+
+  const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
 
-  useEffect(()=>{
-    localStorage.setItem('shoppingList', JSON.stringify(items));
-  },[items])
+  useEffect(() => {
+    const fechItems = async () => {
+      try {
+        const response = await fetch(API_URL);
+        const listItems = await response.json();
+        setItems(listItems);
+      }
+      catch (error) {
+        console.log('Error:', error.stack);
+      }
+    }
 
+    fechItems();
+  }, []);
 
   const addItem = (item) => {
     const id = items.length ? items[items.length - 1].id + 1 : 1;
@@ -51,7 +61,9 @@ function App() {
       />
       <SearchItem search={search} setSearch={setSearch} />
       <Content
-        items={items.filter((item) => item.item.toLowerCase().includes(search.toLowerCase()))}
+        items={items.filter((item) =>
+          item.item.toLowerCase().includes(search.toLowerCase())
+        )}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
       />
