@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'; // Ensure you're importing correctly
+import { Routes, Route, useNavigate } from 'react-router-dom'; // Ensure you're importing correctly
 import Layout from './components/Layout';
 import Home from './components/Home';
 import NewPost from './components/NewPost';
@@ -36,12 +36,15 @@ function App() {
   ]);
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const handleDelete = (id) => {
-    setPosts(posts.filter((post) => post.id !== id));
+    const postList = posts.filter((post) => post.id !== id);
+    setPosts(postList);
+    navigate('/');
   };
 
   return (
