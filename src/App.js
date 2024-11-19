@@ -90,7 +90,7 @@ function App() {
         handleSubmit={handleSubmit}
       />
       <SearchItem search={search} setSearch={setSearch} />
-      <main>
+      <main  className='container'>
         {isLoading && <p>Loading Items...</p>}
         {fetchError && <p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>}
         {!fetchError && !isLoading && (
