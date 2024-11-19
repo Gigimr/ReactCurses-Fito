@@ -40,16 +40,22 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+  const handleDelete = (id) => {
+    setPosts(posts.filter((post) => post.id !== id));
+  };
 
   return (
     <Routes>
       <Route
         path="/"
         element={<Layout search={search} setSearch={setSearch} />}>
-        <Route index element={<Home  posts={posts}/>} />
+        <Route index element={<Home posts={posts} />} />
         <Route path="post">
           <Route index element={<NewPost />} />
-          <Route path=":id" element={<PostPage />} />
+          <Route
+            path=":id"
+            element={<PostPage posts={posts} handleDelete={handleDelete} />}
+          />
         </Route>
         <Route path="about" element={<About />} />
         <Route path="*" element={<Missing />} />
